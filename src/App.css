@@ -1,18 +1,22 @@
 .rate-box{
     background: #eee;
-    padding: 1em;
-    width: 1000px;
+    max-width: 1000px;
+    height: 100%;
     margin: 0 auto;
-}
-
-
-.rate-time{
     text-align: center;
 }
 
+.rate-time>*{
+    padding: .5em 0;
+}
 
 .rate-base{
-    margin:  1em 0;
+    padding: 2em 0;
+}
+.rate-base .base-name{
+    width: 6em;
+    display: inline-block;
+    font-size: 1.5em;
 }
 .rate-base input{
     padding: 1em;
@@ -28,16 +32,25 @@
 }
 
 
-.rate-list,.rate-base{
-    width: 320px;
-}
 .rate-item{
-    padding: .4em;
+    width: 400px;
+    display: inline-block;
+    padding: 1em;
+    margin: 0 1em;
     border-bottom: 1px solid #bbb;
 }
-.rate-name{
+.rate-item .rate-name{
     float: left;
+    cursor: pointer;
 }
-.rate-number{
+.rate-item .rate-number{
     float: right;
+}
+
+
+
+@media screen and (max-width: 500px) {
+    .rate-item{
+        display: block;
+    }
 }
