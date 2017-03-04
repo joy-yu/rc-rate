@@ -56,10 +56,7 @@ export default class Rate extends Component {
   }
 
   changeBase(pos){
-    
-    this.setState({
-      basePos:pos
-    });
+    this.setState({basePos:pos});
   }
 
   render(){
@@ -95,7 +92,11 @@ class Ratebase extends Component {
   render() {
     return (
       <div className="rate-base">
-        <label htmlFor="base-input" className="base-name">{this.props.rateData.name[this.props.basePos]}：</label>
+
+        <label htmlFor="base-input" className="base-name">
+          {this.props.rateData.name[this.props.basePos]}：
+        </label>
+
         <input
           type="text"
           id="base-input"
@@ -104,7 +105,9 @@ class Ratebase extends Component {
           onChange={this.props.onChangeValue}
           maxLength="20"
         />
-        <span className="base-tip">{isNaN(Number(this.props.userInput)) ? '你...你这...你这多少钱?' : ''}</span>
+        <span className="base-tip">
+          {isNaN(Number(this.props.userInput)) ? '你...你这...你这多少钱?' : ''}
+        </span>
       </div>
     );
   }
