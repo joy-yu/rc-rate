@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import  {getJSON} from 'jquery';
+import  { getJSON } from 'jquery';
 
 const RATEURL = 'http://118.89.142.46:7777/';
 
@@ -16,21 +16,19 @@ export default class Rate extends Component {
       basePos: 0,
       userInput: 1,
     };
-    
-    this.getRate = this.getRate.bind(this);
-    this.changeValue = this.changeValue.bind(this);
-    this.changeBase = this.changeBase.bind(this);
   }
 
-  getRate(){
+  getRate = () => {
     getJSON(RATEURL, (data) => {
       let price = [];
       let name = [];
       let tmp = data.result[0];
       let updateTime = `${tmp['data1']['date']} ${tmp['data1']['time']}`;
       for(let v in tmp){
-        name.push(tmp[v]['name']);
-        price.push(100 / tmp[v]['bankConversionPri']);
+        if(tmp.hasOwnProperty(v)){
+          name.push(tmp[v]['name']);
+          price.push(100 / tmp[v]['bankConversionPri']);
+        }
       }
 
       //手动添加人民币
@@ -51,11 +49,11 @@ export default class Rate extends Component {
     this.getRate();
   }
 
-  changeValue(e){
+  changeValue = (e)=>{
     this.setState({userInput: e.target.value});
   }
 
-  changeBase(pos){
+  changeBase = (pos)=>{
     this.setState({basePos:pos});
   }
 
@@ -63,8 +61,8 @@ export default class Rate extends Component {
     return(
       <div className="rate-box">
         <RateHead time={this.state.rateData.updateTime} />
-        <Ratebase onChangeValue={this.changeValue} {...this.state}/>
-        <Rateshow onChangeBase={this.changeBase} {...this.state} />
+        <Ratebase changeValue={this.changeValue} {...this.state}/>
+        <Rateshow changeBase={this.changeBase} {...this.state} />
       </div>
     );
   }
@@ -73,7 +71,6 @@ export default class Rate extends Component {
 
 
 class RateHead extends Component {
-
   render() {
     return (
       <div className="rate-time">
@@ -88,7 +85,6 @@ class RateHead extends Component {
 
 
 class Ratebase extends Component {
-  
   render() {
     return (
       <div className="rate-base">
@@ -102,7 +98,7 @@ class Ratebase extends Component {
           id="base-input"
           placeholder="请输入要转换数量"
           value={this.props.userInput}
-          onChange={this.props.onChangeValue}
+          onChange={this.props.changeValue}
           maxLength="20"
         />
         <span className="base-tip">
@@ -116,8 +112,6 @@ class Ratebase extends Component {
 
 
 class Rateshow extends Component {
-
-
   render() {
     return (
       <ul className="rate-list">
@@ -126,12 +120,12 @@ class Rateshow extends Component {
           return(
             <li className="rate-item clearfix" key={`ratename${i}`}>
 
-              <span className="rate-name" title="点击切换" onClick={this.props.onChangeBase.bind(null,i)}>
+              <span className="rate-name" title="点击切换" onClick={this.props.changeBase.bind(null,i)}>
                 {this.props.rateData.name[i]}：
               </span>
 
               <span className="rate-number" key={`rateprice${i}`}>
-                {(v * this.props.userInput / this.props.rateData.price[this.props.basePos]).toFixed(2)}
+                {(v * this.props.userInput / this.props.rateData.price[this.props.basePos]).toFixed(3)}
               </span>
               
             </li>
